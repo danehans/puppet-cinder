@@ -116,4 +116,10 @@ describe 'cinder' do
 
   end
 
+  describe 'with modified memcached_servers' do
+    let :params do
+      req_params.merge({'memcached_servers' => ['memcached1:11211', 'memcached2:11211']})
+    end
+  end
+
 end

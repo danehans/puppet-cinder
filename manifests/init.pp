@@ -27,6 +27,7 @@ class cinder (
   $qpid_tcp_nodelay            = true,
   $package_ensure              = 'present',
   $api_paste_config            = '/etc/cinder/api-paste.ini',
+  $memcached_servers           = false,
   $verbose                     = false,
   $debug                       = false
 ) {
@@ -109,6 +110,12 @@ class cinder (
       'DEFAULT/qpid_heartbeat':              value => $qpid_heartbeat;
       'DEFAULT/qpid_protocol':               value => $qpid_protocol;
       'DEFAULT/qpid_tcp_nodelay':            value => $qpid_tcp_nodelay;
+    }
+  }
+
+  if ($memcached_servers) {
+    cinder_config {
+      'DEFAULT/memcached_servers': value => inline_template("<%= @memcached_servers.map {|x| x+':11211'}.join ',' %>")
     }
   }
 
